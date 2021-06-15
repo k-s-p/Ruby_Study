@@ -13,3 +13,10 @@ p VERSION
 
 VERSION = 1.2
 p VERSION
+
+ccc = []
+p ccc
+ccc.push(msg)
+ccc.push(a)
+p ccc
+p ccc[100]
