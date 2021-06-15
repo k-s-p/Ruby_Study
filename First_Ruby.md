@@ -84,14 +84,39 @@ end
 
 ```Ruby
 class User
+
+    #クラス変数の定義は、@@をつける
+    @@count = 0
+
+    #クラス定数も定義可能
+    VERSION = 1.1
+
+    attr_accessor :name #こう書くことで、自動でnameにたいしてメソッドを作成できる
+    # setter: name=(value) <-----nameの値を変更するメソッド
+    # getter: name <----nameの値を参照するメソッド
+    #getterだけを定義したい場合は、[attr_reader :name]
+
     def initialize(name) #コンストラクタ
+        @@count += 1
         @name = name  #クラス内の変数は、先頭に@をつけて定義する
     end
 
     def sayHi
-        puts "hi! i am #{@name}"
+        #selfはそのオブジェクト自身を指す
+        puts "hi! i am #{self.name}"
+        # selfを省略することも可能　puts "hi! i am #{name}"
+        #puts "hi! i am #{@name}"
+    end
+
+    #クラスメソッドはself.[method]の形式で定義
+    def self.info
+        puts "#{VERSION}: User Class, #{@@count} instances."
     end
 end
+
+#クラスの外から参照する場合
+User.info
+p User::VERSION
 ```
 
 ## 基本的な関数
