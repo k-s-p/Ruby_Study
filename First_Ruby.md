@@ -119,6 +119,95 @@ User.info
 p User::VERSION
 ```
 
+### クラスの継承
+
+Userを **親クラス** として、AdminUserという**子クラス**に継承する。
+
+継承すると、親クラスのメソッドを使用できる。さらに、子クラスに独自のメソッドを作成することができる。また、親クラスのメソッドと同名メソッドを子クラスで定義し、上書きすることを**オーバーライド**と呼ぶ。
+
+```Ruby
+class AdminUser < User
+    def hogehoge
+        p "hoge"
+    end
+end
+
+a = AdminUser.new()
+a.<親クラスのメソッド>
+a.<子クラスの独自メソッド>
+```
+
+### メソッドのアクセス権
+
+* `private`:レシーバーを指定できないメソッド。privateキーワード以降のメソッド全てに影響する
+
+```Ruby
+class User
+
+  def sayHi
+    puts "hi!"
+    sayPrivate
+    # self.sayPrivate
+  end
+
+  private #これ以降のメソッドはprivateとなる
+
+    def sayPrivate
+      puts "private"
+    end
+
+end
+```
+
+## moduleの作成
+
+moduleはクラスのようにメソッドや定数をまとめることができる。ただし、インスタンスの生成や継承はできない。主な用途として、2種類ある。
+
+1. **名前空間**:他の人のメソッドや変数と名前が被っても大丈夫なように、自分専用の名前空間を作れる。
+
+    ```Ruby
+    module Movie
+
+    VERSION = 1.1
+
+    def self.encode
+        puts "encoding..."
+    end
+
+    def self.export
+        puts "exporting..."
+    end
+
+    end
+
+    Movie.encode
+    Movie.export
+    p Movie::VERSION
+    ```
+
+1. **ミックスイン**:モジュール内に定義したメソッドを、継承関係にないクラスで呼び出して使用することができる。共通の機能を作成する際に便利。クラスで呼び出す際は、**include**と記述する。
+
+    ```Ruby
+    module Debug
+
+    def info
+        puts "#{self.class} debug info ..."
+    end
+
+    end
+
+    class Player
+        include Debug
+    end
+
+    class Monster
+        include Debug
+    end
+
+    Player.new.info
+    Monster.new.info
+    ```
+
 ## 基本的な関数
 
 ### 標準出力
@@ -172,4 +261,3 @@ p User::VERSION
 * `to_a`:ハッシュを2次元配列に変換
 
 * `to_h`:配列をハッシュに変換
-
